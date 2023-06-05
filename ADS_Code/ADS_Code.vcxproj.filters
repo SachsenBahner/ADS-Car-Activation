@@ -18,5 +18,19 @@
     <ClCompile Include="ADS_Code.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="k7scan1.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
+    <ClInclude Include="k7scan1.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,19 +2,51 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <string>
+
+
+#include "k7scan1.h"
+
+#pragma warning(disable:4786)
+#pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
+
+using namespace std;
+
+
+
+// Anfage:
+// Kundenname; Kundennummer; Start-Datum;Start-Zeit;End-Datum;End-Zeit;Startpunkt;Endpunkt;Kategorie;Autocodierung
+
+
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	FILE* inf;
+	char fistr[200] = "buchung.txt";
+
+	//cout << system("cd");
+
+	//printf("Enter filename:\n");
+	//fgets(fistr, sizeof(fistr), stdin);
+	//fistr[strlen(fistr) - 1] = '\0';
+
+	inf = fopen(fistr, "r");
+	if (inf == NULL) {
+		perror("Error");
+		printf("Cannot open input file %s\n", fistr);
+		return 0;
+	}
+
+
+	CParser obj;
+
+	obj.InitParse(inf, stderr, stdout);
+	//obj.Load_tokenentry("SEMICOLON", 9);
+	//obj.pr_tokentable();
+	obj.yyparse();
+	char c; cin >> c;
+
+	return 0;
 }
-
-// Programm ausführen: STRG+F5 oder Menüeintrag "Debuggen" > "Starten ohne Debuggen starten"
-// Programm debuggen: F5 oder "Debuggen" > Menü "Debuggen starten"
-
-// Tipps für den Einstieg: 
-//   1. Verwenden Sie das Projektmappen-Explorer-Fenster zum Hinzufügen/Verwalten von Dateien.
-//   2. Verwenden Sie das Team Explorer-Fenster zum Herstellen einer Verbindung mit der Quellcodeverwaltung.
-//   3. Verwenden Sie das Ausgabefenster, um die Buildausgabe und andere Nachrichten anzuzeigen.
-//   4. Verwenden Sie das Fenster "Fehlerliste", um Fehler anzuzeigen.
-//   5. Wechseln Sie zu "Projekt" > "Neues Element hinzufügen", um neue Codedateien zu erstellen, bzw. zu "Projekt" > "Vorhandenes Element hinzufügen", um dem Projekt vorhandene Codedateien hinzuzufügen.
-//   6. Um dieses Projekt später erneut zu öffnen, wechseln Sie zu "Datei" > "Öffnen" > "Projekt", und wählen Sie die SLN-Datei aus.
