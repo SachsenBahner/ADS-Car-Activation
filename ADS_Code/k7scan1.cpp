@@ -179,6 +179,7 @@ int CParser::yylex()
 				s = L_STRING;
 				yylval.s = c;
 			}
+
 			else if (c == EOF) {
 				return ('\0');
 			}

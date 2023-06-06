@@ -7,6 +7,7 @@
 
 
 #include "k7scan1.h"
+#include "k5huff.h"
 
 #pragma warning(disable:4786)
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
@@ -23,6 +24,10 @@ using namespace std;
 
 int main()
 {
+
+
+	// K7scan1
+
 	FILE* inf;
 	char fistr[200] = "buchung.txt";
 
@@ -46,7 +51,25 @@ int main()
 	//obj.Load_tokenentry("SEMICOLON", 9);
 	//obj.pr_tokentable();
 	obj.yyparse();
-	char c; cin >> c;
+	//char c; cin >> c; // nur für pause
+
+
+	cout << "\n\n\n" << "####################\n\n" << endl;
+
+
+	// k5huff
+
+	printf("Huffman Test!\n");
+	CHufftree hufft;
+	hufft.BuildHeap(); 	// Heap erzeugen
+	//	hufft.pr_pq();return;
+	CHuffNode* tree;
+	tree = hufft.Huffman();
+	hufft.pr_hufftree(tree);
+	char v;
+	cin >> v;
+
+
 
 	return 0;
 }

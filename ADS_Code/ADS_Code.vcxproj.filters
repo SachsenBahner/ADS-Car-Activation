@@ -24,6 +24,9 @@
     <ClCompile Include="StdAfx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="K5huff.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StdAfx.h">
@@ -31,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="k7scan1.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="k5huff.h">
+      <Filter>Quelldateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
