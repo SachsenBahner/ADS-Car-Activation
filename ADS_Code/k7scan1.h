@@ -53,14 +53,13 @@ private:
 	void PushString(char c);			//Used for dtring assembly
 
 
-	const int STRING1 = 3;
+	const int STRING = 3;
 	const int IDENTIFIER = 4;
 	const int INTEGER1 = 5;
 	const int FLOAT1 = 6;
 	const int TOKENSTART = 300;
 
 	enum lexstate {
-		L_START, L_INT, L_IDENT, L_STRING, L_STRING2, L_FLOAT,
-		L_COMMENT, L_TEXT_COMMENT, L_LINE_COMMENT, L_END_TEXT_COMMENT
+		L_START, L_INT, L_IDENT, L_STRING, L_FLOAT
 	};
 };

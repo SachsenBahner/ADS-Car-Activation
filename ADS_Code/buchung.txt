@@ -1,1 +1,2 @@
 Cat1; CruiserOne; 1,50€/h, 0,50€/km; 01012607
+Cat1; CruiserOne; 1,50€/h, 0,50€/km; 01024353
