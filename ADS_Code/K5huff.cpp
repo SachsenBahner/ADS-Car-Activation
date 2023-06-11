@@ -1,18 +1,36 @@
 // K5huff.cpp 
 //
 #include "k5huff.h"
-
+//Bestimmung Codierung
+//Kategorie-Fahrzeugnummer(in der Kategorie)-4RndNr
+//01 02 7734
 
 
 CHuffNode::CHuffNode(double key, char symbol,	CHuffNode* left, CHuffNode* right) : key(key), symbol(symbol), left(left), right(right) {
 	// Konstruktor
 };
 
-
-
 /*CHufftree::CHufftree() {
 	// Konstruktor
 };*/
+
+void probabilities(vector<int>& codes) {
+	int total_count = codes.size();
+	cout << total_count << endl;
+	float probability;
+	int count;
+	for (int i = 0; i <= 9; i++) {
+		count = 0;
+		for (int num : codes) {
+			if (num == i) {
+				count++;
+			}
+		}
+		probability = 1.0 * count / total_count;
+		cout << i << "  "<< std::fixed << std::setprecision(2) << probability << "\n";
+	}
+}
+
 
 
 void CHufftree::BuildHeap()
@@ -68,9 +86,12 @@ CHuffNode * CHufftree::Huffman ()
 }
 //---------------------------------------------------------------
 
-/*void main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
-	printf("Huffman Test!\n");
+	vector<int> numbers = { 1,3,5,0,5,1,2,0};
+	probabilities(numbers);
+
+/*	printf("Huffman Test!\n");
 	CHufftree hufft;
 	hufft.BuildHeap ( ); 	// Heap erzeugen
 //	hufft.pr_pq();return;
@@ -79,6 +100,6 @@ CHuffNode * CHufftree::Huffman ()
 	hufft.pr_hufftree(tree);
 	char c; 
 	cin >> c;
-
-}*/
+*/
+}
 
