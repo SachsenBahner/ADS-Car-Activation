@@ -14,10 +14,10 @@ CHuffNode::CHuffNode(double key, char symbol,	CHuffNode* left, CHuffNode* right)
 	// Konstruktor
 };*/
 
-void probabilities(vector<int>& codes) {
+void CHufftree::probabilities(vector<int>& codes) {
 	int total_count = codes.size();
 	cout << total_count << endl;
-	float probability;
+	double probability;
 	int count;
 	for (int i = 0; i <= 9; i++) {
 		count = 0;
@@ -26,12 +26,13 @@ void probabilities(vector<int>& codes) {
 				count++;
 			}
 		}
+		cout << "creating Huffmanntree: \n";
 		probability = 1.0 * count / total_count;
+		char key = static_cast<char>(i);
+		if (count != 0) {pq.push(CHuffNode(probability, key));};
 		cout << i << "  "<< std::fixed << std::setprecision(2) << probability << "\n";
 	}
 }
-
-
 
 void CHufftree::BuildHeap()
 {
@@ -58,7 +59,7 @@ void CHufftree::pr_pq()
 void CHufftree::pr_hufftree(CHuffNode *n)
 {
 	if(n){
-		printf("symbol: %c, key: %f\n",n->symbol,n->key);
+		printf("symbol: %d, key: %f\n",n->symbol,n->key);
 		pr_hufftree(n->left);
 		pr_hufftree(n->right);
 	}
@@ -88,18 +89,16 @@ CHuffNode * CHufftree::Huffman ()
 
 int main(int argc, char* argv[])
 {
-	vector<int> numbers = { 1,3,5,0,5,1,2,0};
-	probabilities(numbers);
-
-/*	printf("Huffman Test!\n");
 	CHufftree hufft;
-	hufft.BuildHeap ( ); 	// Heap erzeugen
-//	hufft.pr_pq();return;
+	vector<int> numbers = {0,1,0,1,0,1,0,4,0,4,0,5};
+	hufft.probabilities(numbers);
+
+	//hufft.pr_pq();
+
 	CHuffNode *tree;
 	tree=hufft.Huffman();
 	hufft.pr_hufftree(tree);
 	char c; 
 	cin >> c;
-*/
 }
 

@@ -59,6 +59,7 @@ int main()
 
 	// k5huff
 
+/*
 	printf("Huffman Test!\n");
 	CHufftree hufft;
 	hufft.BuildHeap(); 	// Heap erzeugen
@@ -69,7 +70,7 @@ int main()
 	char v;
 	cin >> v;
 
-
+*/
 
 	return 0;
 }

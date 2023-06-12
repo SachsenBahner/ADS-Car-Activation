@@ -31,6 +31,7 @@ public:
 	void BuildHeap();
 	void pr_hufftree(CHuffNode*);
 	void pr_pq();
+	void probabilities(vector<int>& codes);
 	CHuffNode* Huffman();
 	CHufftree() {};
 };
