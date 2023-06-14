@@ -45,7 +45,6 @@ void CHufftree::BuildHeap()
 
 }
 
-
 //---------------------------------------------------------------
 void CHufftree::pr_pq()
 {
@@ -90,7 +89,7 @@ CHuffNode * CHufftree::Huffman ()
 int main(int argc, char* argv[])
 {
 	CHufftree hufft;
-	vector<int> numbers = {0,1,0,1,0,1,0,4,0,4,0,5};
+	vector<int> numbers = {0,1,0,1,2,6,0,7, 0,1,0,2,4,3,5,3, 0,2,0,1,8,8,7,7, 0,2,0,2,9,5,0,4, 0,3,0,1,1,8,7,3, 0,3,0,2,2,6,0,7};
 	hufft.probabilities(numbers);
 
 	//hufft.pr_pq();
@@ -101,4 +100,3 @@ int main(int argc, char* argv[])
 	char c; 
 	cin >> c;
 }
-
