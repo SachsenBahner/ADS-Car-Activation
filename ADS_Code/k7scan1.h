@@ -6,6 +6,7 @@
 #include <map>
 
 #include <fstream>
+#include <time.h>
 
 using namespace std;
 
@@ -32,6 +33,7 @@ private:
 	struct tyylval {							//value return
 		string s;								//structure
 		int i;
+		double kommazahl;
 	}yylval;
 
 	FILE* IP_Input;								//Input File

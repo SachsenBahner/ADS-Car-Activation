@@ -14,6 +14,7 @@ CParser::CParser() {
 void CParser::PushString(char c)
 {
 	yylval.s += c;
+	//cout << yylval.s << endl;
 }
 //------------------------------------------------------------------------
 void CParser::Load_tokenentry(string str, int index)
@@ -67,7 +68,7 @@ int	CParser::yyparse()
 		else if (tok == INTEGER1)
 			printf("%s %d ", IP_revToken_table[tok].c_str(), yylval.i);
 		else if (tok == FLOAT1)
-			printf("%s %f ", IP_revToken_table[tok].c_str(), yylval.i);
+			printf("%s %f ", IP_revToken_table[tok].c_str(), yylval.kommazahl);
 		else if (tok == IDENTIFIER)
 			printf("%s %s ", IP_revToken_table[tok].c_str(), yylval.s.c_str());
 		else if (tok >= TOKENSTART)
@@ -160,13 +161,11 @@ int CParser::yylex()
 		case L_START:
 			if (isdigit(c)) {
 				s = L_INT;
+				PushString((char)c);
 			}
 			else if (c == ';') { // next Value, Seperator
 				s = L_IDENT;
 			}
-			//else if (isalpha(c) || c == '\\') {
-			//	s = L_IDENT;
-			//}
 			else if (isspace(c) || c == '/') {
 				if (c == '\n') {
 					IP_LineNumber += 1;
@@ -193,6 +192,7 @@ int CParser::yylex()
 			 */
 		case L_INT:
 			if (isdigit(c)) {
+				PushString((char)c);
 				break;
 			}
 			else if (c == ',' || c == '.') {
@@ -214,16 +214,10 @@ int CParser::yylex()
 			else if (c == ',' || c == '.') {
 				PushString('.');
 			}
-			else if (c == 226) { // ist ein € Symbol
-				//PushString((char)c);
-				s = L_IDENT;
-				return (FLOAT1);
-				break;
-			}
 			else {
 				Ungetc(c);
 				yylval.s = yytext.substr(0, yytext.size() - 1);
-				yylval.i = atof(yylval.s.c_str());
+				yylval.kommazahl = strtof(yylval.s.c_str(), NULL);
 				return (FLOAT1);
 			}
 			break;
