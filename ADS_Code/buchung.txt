@@ -1,2 +1,1 @@
-Cat1; CruiserOne; 1,50€/h, 0,50€/km; 01012607
-Cat1; CruiserOne; 1,50€/h, 0,50€/km; 01024353
+Spongebob Schwammkopf; 67890; 2023-06-15; 09:00; 2023-06-08; Bikini Bottom; Muschelstadt; Unterwasserfahrzeuge; 87654321

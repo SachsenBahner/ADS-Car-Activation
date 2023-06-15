@@ -87,6 +87,7 @@ CHuffNode * CHufftree::Huffman ()
 }
 //---------------------------------------------------------------
 
+/*
 int main(int argc, char* argv[])
 {
 	CHufftree hufft;
@@ -100,5 +101,5 @@ int main(int argc, char* argv[])
 	hufft.pr_hufftree(tree);
 	char c; 
 	cin >> c;
-}
+}*/
 
