@@ -28,11 +28,12 @@ void CHufftree::probabilities(vector<int>& codes) {
 		}
 		cout << "creating Huffmanntree: \n";
 		probability = 1.0 * count / total_count;
-		char key = static_cast<char>(i);
-		if (count != 0) {pq.push(CHuffNode(probability, key));};
+		if (count != 0) {pq.push(CHuffNode(probability, i + '0'));};
 		cout << i << "  "<< std::fixed << std::setprecision(2) << probability << "\n";
 	}
 }
+
+//------------------------------------------------------------
 
 void CHufftree::BuildHeap()
 {
@@ -45,7 +46,6 @@ void CHufftree::BuildHeap()
 
 }
 
-
 //---------------------------------------------------------------
 void CHufftree::pr_pq()
 {
@@ -56,12 +56,15 @@ void CHufftree::pr_pq()
 		printf("%c %f\n",m.symbol,m.key);
 	}
 }
-void CHufftree::pr_hufftree(CHuffNode *n)
+void CHufftree::pr_hufftree(CHuffNode *n, string code, unordered_map<char, string>& Codierung)
 {
 	if(n){
-		printf("symbol: %d, key: %f\n",n->symbol,n->key);
-		pr_hufftree(n->left);
-		pr_hufftree(n->right);
+		printf("symbol: %c, key: %f\n",n->symbol,n->key);
+		if(n->symbol != '#') {
+			Codierung[n->symbol] = code;
+		}
+		pr_hufftree(n->left, code + "0", Codierung);
+		pr_hufftree(n->right, code + "1", Codierung);
 	}
 }
 //---------------------------------------------------------------
@@ -81,25 +84,26 @@ CHuffNode * CHufftree::Huffman ()
 		// minimum CHuffNode to r2 and remove from queue
 		*r2= pq.top(); pq.pop();
 		// new CHuffNode with sum of weight
-		CHuffNode rp(r1->key + r2->key,' ',r1,r2);							
+		CHuffNode rp(r1->key + r2->key,'#',r1,r2);							
 		pq.push (rp);		// insert new CHuffNode to queue
 	}
 }
 //---------------------------------------------------------------
 
-/*
 int main(int argc, char* argv[])
 {
 	CHufftree hufft;
-	vector<int> numbers = {0,1,0,1,0,1,0,4,0,4,0,5};
+	unordered_map<char, string>Codierung;		//unordered_map zur Speicherung der jeweiligen Codierung für die auftretenden Symbole nach Wahrscheinlichkeit
+	//Codierung['9'] = "010101";
+	vector<int> numbers = {0,1,0,1,2,6,0,7, 0,1,0,2,4,3,5,3, 0,2,0,1,8,8,7,7, 0,2,0,2,9,5,0,4, 0,3,0,1,1,8,7,3, 0,3,0,2,2,6,0,7};
 	hufft.probabilities(numbers);
-
-	//hufft.pr_pq();
 
 	CHuffNode *tree;
 	tree=hufft.Huffman();
-	hufft.pr_hufftree(tree);
-	char c; 
-	cin >> c;
-}*/
+	hufft.pr_hufftree(tree, "", Codierung);
 
+	//Ausgabe der unordered_map
+	for (const auto& pair : Codierung){
+		cout << pair.first << " = " << pair.second << endl;
+	}
+}

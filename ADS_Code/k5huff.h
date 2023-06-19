@@ -20,7 +20,7 @@ public:
 	{
 		return key > x.key;
 	}
-	CHuffNode(double key = 0, char symbol = ' ', CHuffNode* left = NULL, CHuffNode* right = NULL);
+	CHuffNode(double key = 0, char symbol = '#', CHuffNode* left = NULL, CHuffNode* right = NULL);
 };
 
 
@@ -29,7 +29,7 @@ class CHufftree
 public:
 	priority_queue<CHuffNode> pq;
 	void BuildHeap();
-	void pr_hufftree(CHuffNode*);
+	void pr_hufftree(CHuffNode *n, string code, unordered_map<char, string>& Codierung);
 	void pr_pq();
 	void probabilities(vector<int>& codes);
 	CHuffNode* Huffman();
