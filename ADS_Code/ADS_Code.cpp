@@ -1,48 +1,7 @@
 // ADS_Code.cpp : Diese Datei enthält die Funktion "main". Hier beginnt und endet die Ausführung des Programms.
-//
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
+#include "ADS_Code.h"
 
-
-#include "k7scan1.h"
-#include "k5huff.h"
-
-#pragma warning(disable:4786)
-#pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
-
-using namespace std;
-
-
-struct Customer
-{
-	string name;
-	int id;
-};
-
-struct Station {
-	int number;
-	string name;
-};
-
-struct Car
-{
-	string kategorie;
-	string name;
-	float pricePerHour;
-	float pricePerKm;
-	int carCodierung;
-};
-
-
-// Define some Functions
-vector<Car> readCarPool(const string& filename);
-vector<Customer> readCustomerPool(const string& filename);
-vector<Station> readStationPool(const string& filename);
 
 
 // Anfage:
@@ -53,21 +12,36 @@ vector<Station> readStationPool(const string& filename);
 
 int main()
 {
-	string filename = "car.txt";
-	vector<Car> cars = readCarPool(filename);
+	
+
+
+	// TODO: Später für UI ausglieder
+	vector<Car> cars = readCarPool(filenameCarPool);
+	vector<Customer> customers = readCustomerPool(filenameCustomerPool);
+	vector<Station> stations = readStationPool(filenameStationPool);
+	// Ende Ausgliedern
+
+
+	// buchungsanfrage
+
+	
+	char fistr[200] = "buchung.txt";
+
+	Buchungsanfrage anfrage = buchungsParser.ParseBuchungsanfrage(fistr);
+
+	cout << anfrage.customerName << endl;
+
 
 	// K7scan1
 
-	FILE* inf;
-	char fistr[200] = "buchung.txt";
-
+	//FILE* inf;
 	//cout << system("cd");
 
 	//printf("Enter filename:\n");
 	//fgets(fistr, sizeof(fistr), stdin);
 	//fistr[strlen(fistr) - 1] = '\0';
 
-	inf = fopen(fistr, "r");
+	/*inf = fopen(fistr, "r");
 	if (inf == NULL) {
 		perror("Error");
 		printf("Cannot open input file %s\n", fistr);
@@ -75,12 +49,17 @@ int main()
 	}
 
 
-	CParser obj;
+	BuchungsParser obj;
 
 	obj.InitParse(inf, stderr, stdout);
 	//obj.Load_tokenentry("SEMICOLON", 9);
 	//obj.pr_tokentable();
-	obj.yyparse();
+	obj.yyparse();*/
+	
+
+	//Buchungsanfrage anfrage = obj.ParseBuchungsanfrage()
+
+
 	//char c; cin >> c; // nur für pause
 
 
@@ -160,7 +139,6 @@ vector<Station> readStationPool(const string& filename) {
 
 	return stations;
 }
-
 
 vector<Car> readCarPool(const string& filename) {
 	vector<Car> cars; // ka-ching ;-)

@@ -90,7 +90,9 @@ CHuffNode * CHufftree::Huffman ()
 }
 //---------------------------------------------------------------
 
-int main(int argc, char* argv[])
+
+// Alle Programmfunktionen werden über das Hauptprogramm in der Datei ADS_CODE.cpp angesprochen! 
+/* int main(int argc, char* argv[])
 {
 	CHufftree hufft;
 	unordered_map<char, string>Codierung;		//unordered_map zur Speicherung der jeweiligen Codierung für die auftretenden Symbole nach Wahrscheinlichkeit
@@ -107,3 +109,5 @@ int main(int argc, char* argv[])
 		cout << pair.first << " = " << pair.second << endl;
 	}
 }
+
+*/

@@ -5,6 +5,8 @@ CParser::CParser() {
 	IP_LineNumber = 1;
 	ugetflag = 0;
 	prflag = 0;
+
+
 };	//Constructor
 
 
@@ -53,22 +55,106 @@ void CParser::pr_tokentable()
 }
 //------------------------------------------------------------------------
 
-int	CParser::yyparse()
-{
+
+
+Buchungsanfrage CParser::ParseBuchungsanfrage() {
+
 	int tok;
 	if (prflag)fprintf(IP_List, "%5d ", (int)IP_LineNumber);
+
+	int zaehler = 0;
+	string tokens[100];
+
 	/*
 	*	Go parse things!
 	*/
 	while ((tok = yylex()) != 0) {
+
+
+		if (tok != 45 && tok != 4) { // in Case of identifier or "-" skip.
+			zaehler++;
+			cout << " " << zaehler << " ";
+		}
+
+		if (tok == STRING) {
+			tokens[tok] = yylval.s.c_str();
+			//printf("%s %s ", IP_revToken_table[tok].c_str(), yylval.s.c_str());
+		}
+			
+		else if (tok == INTEGER1) {
+			tokens[tok] = yylval.i;
+		}
+		//else if (tok == IDENTIFIER)
+			//printf("%s %s ", IP_revToken_table[tok].c_str(), yylval.s.c_str());
+		//else if (tok >= TOKENSTART)
+			//printf("%s ", IP_revToken_table[tok].c_str());
+		else
+			printf("%c ", tok);
+		if (!prflag)printf("\n");
+	}
+
+
+	// Zeit umwandeln
+
+	// Time
+	/*
+
+	struct tm tm;
+	time_t startzeit;
+	time_t endzeit;
+
+	tm.tm_year = (int) tokens[3] - 1900;  // Jahr abziehen, da tm_year die Anzahl der Jahre seit 1900 erwartet
+	tm.tm_mon = 6 - 1;         // Monat abziehen, da tm_mon die Anzahl der Monate seit Januar erwartet
+	tm.tm_mday = 8;
+	tm.tm_hour = 15;
+	tm.tm_min = 40;
+	tm.tm_sec = 0;
+	tm.tm_isdst = -1;          // Zeitumstellung lokal erkennen
+
+	t = mktime(&tm);*/
+
+
+
+	Buchungsanfrage buchungsanfrage;
+
+	buchungsanfrage.customerName = tokens[0];
+	buchungsanfrage.customerId = std::stoi(tokens[1]);
+	//buchungsanfrage.startZeit = std::stoi(tokens[2]);
+	//buchungsanfrage.endZeit = std::stoi(tokens[3]);
+	//buchungsanfrage.startpunkt = tokens[4];
+	//buchungsanfrage.endpunkt = tokens[5];
+	//buchungsanfrage.Kategorie = tokens[6];
+	//buchungsanfrage.Autocodierung = std::stoi(tokens[7]);
+
+	return buchungsanfrage;
+}
+
+
+
+int	CParser::yyparse()
+{
+	int tok;
+	if (prflag)fprintf(IP_List, "%5d ", (int)IP_LineNumber);
+
+	int zaehler = 0;
+	/*
+	*	Go parse things!
+	*/
+	while ((tok = yylex()) != 0) {
+		
+
+		if (tok != 45 && tok != 4) { // in Case of identifier or "-" skip.
+			zaehler++;
+			cout << " " << zaehler << " ";
+		}
+
+		
 		printf("%d ", tok);
 
 		if (tok == STRING)
 			printf("%s %s ", IP_revToken_table[tok].c_str(), yylval.s.c_str());
 		else if (tok == INTEGER1)
 			printf("%s %d ", IP_revToken_table[tok].c_str(), yylval.i);
-		else if (tok == FLOAT1)
-			printf("%s %f ", IP_revToken_table[tok].c_str(), yylval.kommazahl);
 		else if (tok == IDENTIFIER)
 			printf("%s %s ", IP_revToken_table[tok].c_str(), yylval.s.c_str());
 		else if (tok >= TOKENSTART)
@@ -195,10 +281,6 @@ int CParser::yylex()
 				PushString((char)c);
 				break;
 			}
-			else if (c == ',' || c == '.') {
-				s = L_FLOAT;
-				PushString((char)c);
-			}
 			else {
 				Ungetc(c);
 				yylval.s = yytext.substr(0, yytext.size() - 1);
@@ -207,20 +289,6 @@ int CParser::yylex()
 			}
 			break;
 
-		case L_FLOAT:
-			if (isdigit(c)) {
-				PushString((char)c);
-			}
-			else if (c == ',' || c == '.') {
-				PushString('.');
-			}
-			else {
-				Ungetc(c);
-				yylval.s = yytext.substr(0, yytext.size() - 1);
-				yylval.kommazahl = strtof(yylval.s.c_str(), NULL);
-				return (FLOAT1);
-			}
-			break;
 
 			/*
 			 *	Grab an identifier, see if the current context enables

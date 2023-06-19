@@ -4,11 +4,13 @@
 #pragma warning(disable:4786)
 #include <string>
 #include <map>
+#include <vector>
 
 #include <fstream>
 #include <time.h>
 
-using namespace std;
+
+#include "common.h"
 
 #define	Getc(s)			getc(s)
 #define	Ungetc(c)		{ungetc(c,IP_Input); ugetflag=1;}
@@ -24,6 +26,7 @@ public:
 
 	void pr_tokentable();				//test output for tokens
 	void Load_tokenentry(string str, int index);//load one token
+	Buchungsanfrage ParseBuchungsanfrage();
 
 
 
@@ -33,7 +36,6 @@ private:
 	struct tyylval {							//value return
 		string s;								//structure
 		int i;
-		double kommazahl;
 	}yylval;
 
 	FILE* IP_Input;								//Input File
@@ -58,10 +60,9 @@ private:
 	const int STRING = 3;
 	const int IDENTIFIER = 4;
 	const int INTEGER1 = 5;
-	const int FLOAT1 = 6;
 	const int TOKENSTART = 300;
 
 	enum lexstate {
-		L_START, L_INT, L_IDENT, L_STRING, L_FLOAT
+		L_START, L_INT, L_IDENT, L_STRING
 	};
 };
