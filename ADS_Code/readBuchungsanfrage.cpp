@@ -22,8 +22,10 @@ FormatError BuchungsParser::checkLineFormat(const string &line, int &errorIndex)
 	int kundennummer, startJahr, startMonat, startTag, startStunde, startMinute;
 	int endJahr, endMonat, endTag, endStunde, endMinute, autocodierung;
 
+	cout << line << endl;
+
 	
-	if (getline(iss, kundenname, ';') &&
+	/*if (getline(iss, kundenname, ';') &&
 		getline(iss, kundennummerStr, ';') &&
 		getline(iss, startTagStr, '.') &&
 		getline(iss, startMonatStr, '.') &&
@@ -37,29 +39,29 @@ FormatError BuchungsParser::checkLineFormat(const string &line, int &errorIndex)
 		getline(iss, endMinuteStr, ';') &&
 		getline(iss, startpunkt, ';') &&
 		getline(iss, endpunkt, ':') &&
-		getline(iss, autoCodierungStr, ';'))
-	{
-		// jetzt Integer
+		getline(iss, autoCodierungStr))
+	{*/
 
-		/*
+		if (getline(iss, kundenname, ';') &&
+			getline(iss, kundennummerStr, ';') &&
+			getline(iss, startTagStr, '.') &&
+			getline(iss, startMonatStr, '.') &&
+			getline(iss, startJahrStr, ';') &&
+			getline(iss, startStundeStr, ':') &&
+			getline(iss, startMinuteStr, ';') &&
+			getline(iss, endTagStr, '.') &&
+			getline(iss, endMonatStr, '.') &&
+			getline(iss, endJahrStr, ';') &&
+			getline(iss, endStundeStr, ':') &&
+			getline(iss, endMinuteStr, ';') &&
+			getline(iss, startpunkt, ';') &&
+			getline(iss, endpunkt, ';') &&
+			getline(iss, kategorie, ';') &&
+			getline(iss, autoCodierungStr))
+		{
 
-		kundennummer = stoi(kundennummerStr);
-		startJahr = stoi(startJahrStr);
-		startMonat = stoi(startMonatStr);
-		startTag = stoi(startTagStr);
-		startStunde = stoi(startStundeStr);
-		startMinute = stoi(startMinuteStr);
-
-		endJahr = stoi(endJahrStr);
-		endMonat = stoi(endMonatStr);
-		endTag = stoi(endTagStr);
-		endStunde = stoi(endStundeStr);
-		endMinute = stoi(endMinuteStr);
-
-		autocodierung = stoi(autoCodierungStr);
-
-		//cars.push_back({ kategorie, name, pricePerKm, pricePerHour, carCodierung });
-		*/
+			cout << kundenname << kundennummerStr << startTagStr << startMonatStr << startJahrStr << startStundeStr << startMinuteStr << endTagStr << endMonatStr << endJahrStr << endStundeStr << endMinuteStr << startpunkt << endpunkt << kategorie << autoCodierungStr << endl;
+		
 
 		// Überprüfung der eingelesenen Werte
 		if (kundenname.empty() || kundennummerStr.empty() || startTagStr.empty() ||

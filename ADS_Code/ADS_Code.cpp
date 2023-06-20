@@ -23,13 +23,24 @@ int main()
 
 
 	// buchungsanfrage
-
-	
+		
 	char fistr[200] = "buchung.txt";
 
-	Buchungsanfrage anfrage = buchungsParser.ParseBuchungsanfrage(fistr);
+	Buchungsanfrage neueAnfrage = buchungsParser.ParseBuchungsanfrage(fistr);
 
-	cout << anfrage.customerName << endl;
+	if (isOverlap(neueAnfrage, bestehendeAnfragen) == false ) { // Buchung kann angenommen werden
+		cout << "Buchung angenommen";
+		bestehendeAnfragen.push_back(neueAnfrage);
+	}
+	else {
+		cout << "Buchung muss abgelehnt werden";
+	}
+
+	cout << endl << "#####" << endl;
+
+	AnfrageError err = pruefeAnfrage(neueAnfrage, bestehendeAnfragen, customers, cars, stations);
+	
+	cout << (int) err;
 
 
 	// K7scan1
@@ -60,7 +71,7 @@ int main()
 	//Buchungsanfrage anfrage = obj.ParseBuchungsanfrage()
 
 
-	//char c; cin >> c; // nur für pause
+	char c; cin >> c; // nur für pause
 
 
 	cout << "\n\n\n" << "####################\n\n" << endl;
@@ -183,4 +194,85 @@ vector<Car> readCarPool(const string& filename) {
 	inputFile.close();
 
 	return cars;
+}
+
+bool isOverlap(const Buchungsanfrage& neueAnfrage, const vector<Buchungsanfrage>& bestehendeAnfragen) {
+	for (const Buchungsanfrage& bestehendeAnfrage : bestehendeAnfragen) {
+
+		// Überprüfe, ob die Startzeit der neuen Anfrage vor der Endzeit der bestehenden Anfrage liegt UND die Endzeit der neuen Anfrage nach der Startzeit der bestehenden Anfrage liegt
+
+		if (neueAnfrage.startZeit < bestehendeAnfrage.endZeit && neueAnfrage.endZeit > bestehendeAnfrage.startZeit) {
+			// Es gibt eine Überschneidung
+			return true;
+		}
+	}
+	// Keine Überschneidung gefunden
+	return false;
+}
+
+
+bool isCustomerLegit(const Buchungsanfrage& neueAnfrage, const vector <Customer>& customers) {
+	for (const Customer& customer : customers) {
+		if (neueAnfrage.customerName == customer.name && neueAnfrage.customerId == customer.id) {
+			// Der Kunde existiert und ID stimmt auch überein
+			return true;
+		}
+	}
+	// Der Kunde wurde nicht gefunden
+	return false;
+}
+
+bool isCarLegit(const Buchungsanfrage& neueAnfrage, const vector <Car>& cars) {
+	for (const Car& car : cars) {
+		if (neueAnfrage.Autocodierung == car.carCodierung && neueAnfrage.Kategorie == car.kategorie) {
+			// Das Auto existiertund ID stimmt auch überein
+			return true;
+		}
+	}
+	// Das Auto wurde nicht gefunden
+	return false;
+}
+
+bool isStationLegit(const string& stationName, const vector <Station>& stations) {
+	for (const Station& station : stations) {
+		if (stationName == station.name ) {
+			// Die Station existiert
+			return true;
+		}
+	}
+	// Das Auto wurde nicht gefunden
+	return false;
+}
+
+
+AnfrageError pruefeAnfrage(const Buchungsanfrage& neueAnfrage, const vector<Buchungsanfrage>& bestehendeAnfragen, const vector <Customer>& customers, const vector <Car>& cars, const vector <Station>& stations) {
+	// prüfe, ob Customer existiert
+
+	if (isCustomerLegit(neueAnfrage, customers) == false)
+		//NoCustomerFound
+		return AnfrageError::NoCustomerFound;
+
+
+	// prüfe, ob Start und Zielpunkt existieren
+
+	if (isStationLegit(neueAnfrage.startpunkt, stations) == false || isStationLegit(neueAnfrage.endpunkt, stations) == false)
+		//NoStationFound
+		return AnfrageError::NoStationFound;
+
+
+
+	// prüfe, ob Autocodierung existiert
+
+	if (isCarLegit(neueAnfrage, cars) == false)
+		//NoCarFound
+		return AnfrageError::NoCarFound;
+
+
+	// prüfe, ob das Auto ausgebucht ist.
+
+	if(isOverlap(neueAnfrage, bestehendeAnfragen))
+		// Es liegt schon eine Buchung vor
+		return AnfrageError::AlreadyBooked;
+
+	return AnfrageError::NoError;
 }

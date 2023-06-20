@@ -31,6 +31,7 @@ string filenameStationPool = "Routes.pool";
 
 BuchungsParser buchungsParser;
 
+vector<Buchungsanfrage> bestehendeAnfragen;
 
 
 // Define some Structs
@@ -56,6 +57,14 @@ struct Car
 };
 
 
+enum class AnfrageError {
+	NoError,
+	NoCustomerFound,
+	NoCarFound,
+	NoStationFound,
+	AlreadyBooked
+};
+
 
 
 
@@ -70,6 +79,12 @@ vector<Car> readCarPool(const string& filename);
 vector<Customer> readCustomerPool(const string& filename);
 vector<Station> readStationPool(const string& filename);
 
+bool isOverlap(const Buchungsanfrage& neueAnfrage, const vector<Buchungsanfrage>& bestehendeAnfragen);
+
+AnfrageError pruefeAnfrage(const Buchungsanfrage& neueAnfrage, const vector<Buchungsanfrage>& bestehendeAnfragen, const vector <Customer>& customers, const vector <Car>& cars, const vector <Station>& stations);
+bool isCustomerLegit(const Buchungsanfrage& neueAnfrage, const vector <Customer>& customers);
+bool isCarLegit(const Buchungsanfrage& neueAnfrage, const vector <Car>& cars);
+bool isStationLegit(const string& stationName, const vector <Station>& stations);
 
 int main();
 
