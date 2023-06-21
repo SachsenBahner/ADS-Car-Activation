@@ -12,15 +12,6 @@
 #pragma warning(disable:4786)
 
 
-enum class FormatError {
-	NoError,
-	NotEnoughInputs,
-	InvalidFormat,
-	StringMismatch,
-	IntegerMismatch
-};
-
-
 class BuchungsParser
 {
 public:

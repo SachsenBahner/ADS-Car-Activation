@@ -9,6 +9,15 @@
 
 using namespace std;
 
+enum class FormatError {
+	NoError,
+	NotEnoughInputs,
+	InvalidFormat,
+	StringMismatch,
+	IntegerMismatch,
+	FileNotFound
+};
+
 struct Buchungsanfrage
 {
 	string customerName;
@@ -19,7 +28,11 @@ struct Buchungsanfrage
 	string endpunkt;
 	string Kategorie;
 	int Autocodierung;
+	FormatError error;
+
 };
+
+
 
 
 extern Buchungsanfrage buchungsanfrage;

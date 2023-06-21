@@ -22,7 +22,7 @@ FormatError BuchungsParser::checkLineFormat(const string &line, int &errorIndex)
 	int kundennummer, startJahr, startMonat, startTag, startStunde, startMinute;
 	int endJahr, endMonat, endTag, endStunde, endMinute, autocodierung;
 
-	cout << line << endl;
+	//cout << line << endl;
 
 	
 	/*if (getline(iss, kundenname, ';') &&
@@ -60,7 +60,7 @@ FormatError BuchungsParser::checkLineFormat(const string &line, int &errorIndex)
 			getline(iss, autoCodierungStr))
 		{
 
-			cout << kundenname << kundennummerStr << startTagStr << startMonatStr << startJahrStr << startStundeStr << startMinuteStr << endTagStr << endMonatStr << endJahrStr << endStundeStr << endMinuteStr << startpunkt << endpunkt << kategorie << autoCodierungStr << endl;
+			//cout << kundenname << kundennummerStr << startTagStr << startMonatStr << startJahrStr << startStundeStr << startMinuteStr << endTagStr << endMonatStr << endJahrStr << endStundeStr << endMinuteStr << startpunkt << endpunkt << kategorie << autoCodierungStr << endl;
 		
 
 		// Überprüfung der eingelesenen Werte
@@ -135,7 +135,9 @@ Buchungsanfrage BuchungsParser::ParseBuchungsanfrage(const string& file) {
 
 	ifstream inputFile(file);
 	if (!inputFile) {
-		cout << "Error opening the file." << endl;
+		//cout << "Error opening the file." << endl;
+		// Datei kann nicht geöffnet werden
+		buchungsanfrage.error = FormatError::FileNotFound;
 		return buchungsanfrage;
 	}
 
@@ -152,10 +154,13 @@ Buchungsanfrage BuchungsParser::ParseBuchungsanfrage(const string& file) {
 	FormatError formatError = checkLineFormat(line, errorIndex);
 
 
+	buchungsanfrage.error = formatError;
+
 
 	// NoError,	NotEnoughInputs, InvalidFormat, StringMismatch, IntegerMismatch
 
 	if (formatError == FormatError::NotEnoughInputs) {
+		
 		cerr << "Nicht genug Inputs!";
 	}
 	else if (formatError == FormatError::InvalidFormat) {

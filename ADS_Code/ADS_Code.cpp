@@ -12,6 +12,27 @@
 
 int main()
 {
+
+	// Huffmann ausgeben
+
+	CHufftree hufft;
+	unordered_map<char, string>Codierung;		//unordered_map zur Speicherung der jeweiligen Codierung für die auftretenden Symbole nach Wahrscheinlichkeit
+	//Codierung['9'] = "010101";
+	vector<int> numbers = { 0,1,0,1,2,6,0,7, 0,1,0,2,4,3,5,3, 0,2,0,1,8,8,7,7, 0,2,0,2,9,5,0,4, 0,3,0,1,1,8,7,3, 0,3,0,2,2,6,0,7 };
+	hufft.probabilities(numbers);
+
+	CHuffNode* tree;
+	tree = hufft.Huffman();
+	hufft.pr_hufftree(tree, "", Codierung);
+
+	//Ausgabe der unordered_map
+	for (const auto& pair : Codierung) {
+		cout << pair.first << " = " << pair.second << endl;
+	}
+
+
+
+	// Ende Huffmann
 	
 
 
@@ -22,31 +43,86 @@ int main()
 	// Ende Ausgliedern
 
 
-	// buchungsanfrage
+	// buchungsanfrage#
+
+	while (1) {
+		// frage, ob neue Anfrage
+
+		cout << "Bitte Buchungsdateiname eingeben: ";
+
+		string filename;
+
+		cin >> filename;
+
+		Buchungsanfrage neueAnfrage = buchungsParser.ParseBuchungsanfrage(filename);
+
+		cout << neueAnfrage.customerName << neueAnfrage.customerId;
+
+
+		if (neueAnfrage.error != FormatError::NoError) {
+			
+			cout << "Die Anfrage enthält einen Fehler. ";
+
+			if (neueAnfrage.error == FormatError::NotEnoughInputs) {
+				cerr << "Nicht genug Inputs!";
+			}
+			else if (neueAnfrage.error == FormatError::InvalidFormat) {
+				cerr << "InvalidFormat!";
+			}
+			else if (neueAnfrage.error == FormatError::StringMismatch) {
+				cerr << "StringMismatch!";
+			}
+			else if (neueAnfrage.error == FormatError::IntegerMismatch) {
+				cerr << "IntegerMismatch!";
+			}
+			else if (neueAnfrage.error == FormatError::FileNotFound) {
+				cerr << "File not Found!";
+			}
+
+			break;
+		}
+
+
+		AnfrageError err = pruefeAnfrage(neueAnfrage, bestehendeAnfragen, customers, cars, stations); // überprüfe, ob es Fehler gibt
+
+		if (err  == AnfrageError::NoError) { // Buchung kann angenommen werden
+			cout << "Buchung angenommen";
+			bestehendeAnfragen.push_back(neueAnfrage);
+			break;
+		}
+			
 		
-	char fistr[200] = "buchung.txt";
+		cout << "Buchung muss abgelehnt werden! Grund: ";
 
-	Buchungsanfrage neueAnfrage = buchungsParser.ParseBuchungsanfrage(fistr);
+		switch (err)
+		{
+		case AnfrageError::NoCustomerFound:
+			cerr << "Der Kunde wurde nicht gefunden!";
+			break;
+		case AnfrageError::NoCarFound:
+			cerr << "Das Auto wurde nicht gefunden!";
+			break;
+		case AnfrageError::NoStationFound:
+			cerr << "Die Station wurde nicht gefunden!";
+			break;
+		case AnfrageError::AlreadyBooked:
+			cerr << "Leider ist das Auto zu dem gewählten Zeitpunkt schon ausgebucht!";
+			break;
+		}
 
-	if (isOverlap(neueAnfrage, bestehendeAnfragen) == false ) { // Buchung kann angenommen werden
-		cout << "Buchung angenommen";
-		bestehendeAnfragen.push_back(neueAnfrage);
+		cout << endl;
+
 	}
-	else {
-		cout << "Buchung muss abgelehnt werden";
-	}
 
-	cout << endl << "#####" << endl;
-
-	AnfrageError err = pruefeAnfrage(neueAnfrage, bestehendeAnfragen, customers, cars, stations);
 	
-	cout << (int) err;
 
 
 	// K7scan1
 
 	//FILE* inf;
 	//cout << system("cd");
+		
+	//char fistr[200] = "buchung.txt";
 
 	//printf("Enter filename:\n");
 	//fgets(fistr, sizeof(fistr), stdin);
@@ -70,27 +146,6 @@ int main()
 
 	//Buchungsanfrage anfrage = obj.ParseBuchungsanfrage()
 
-
-	char c; cin >> c; // nur für pause
-
-
-	cout << "\n\n\n" << "####################\n\n" << endl;
-
-
-	// k5huff
-
-/*
-	printf("Huffman Test!\n");
-	CHufftree hufft;
-	hufft.BuildHeap(); 	// Heap erzeugen
-	//	hufft.pr_pq();return;
-	CHuffNode* tree;
-	tree = hufft.Huffman();
-	hufft.pr_hufftree(tree);
-	char v;
-	cin >> v;
-
-*/
 
 	return 0;
 }
