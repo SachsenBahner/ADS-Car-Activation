@@ -30,11 +30,11 @@ int main()
 		cout << pair.first << " = " << pair.second << endl;
 	}
 
-
-
 	// Ende Huffmann
 	
-
+	//encode
+	vector<int> CarKey = {0,3,0,2,2,6,0,7};
+	cout << encode(CarKey, Codierung) << endl;
 
 	// TODO: Später für UI ausglieder
 	vector<Car> cars = readCarPool(filenameCarPool);
@@ -330,4 +330,13 @@ AnfrageError pruefeAnfrage(const Buchungsanfrage& neueAnfrage, const vector<Buch
 		return AnfrageError::AlreadyBooked;
 
 	return AnfrageError::NoError;
+}
+
+string encode (vector<int>& CarKey, unordered_map<char, string>& Codierung) {
+	string output = "";
+	for (int i = 0; i < CarKey.size(); i++)
+	{
+		output += Codierung['0'+CarKey[i]];
+	}
+	return output;
 }
