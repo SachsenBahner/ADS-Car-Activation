@@ -1,4 +1,4 @@
-// ADS_Code.h : Diese Datei enthält die Funktion "main". Hier beginnt und endet die Ausführung des Programms.
+// ADS_Code.h : Diese Datei enthï¿½lt die Funktion "main". Hier beginnt und endet die Ausfï¿½hrung des Programms.
 //
 
 #include <iostream>
@@ -78,6 +78,8 @@ enum class AnfrageError {
 vector<Car> readCarPool(const string& filename);
 vector<Customer> readCustomerPool(const string& filename);
 vector<Station> readStationPool(const string& filename);
+
+string encode (vector<int>& CarKey, unordered_map<char, string>& Codierung);
 
 bool isOverlap(const Buchungsanfrage& neueAnfrage, const vector<Buchungsanfrage>& bestehendeAnfragen);
 

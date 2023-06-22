@@ -17,7 +17,6 @@ int main()
 
 	CHufftree hufft;
 	unordered_map<char, string>Codierung;		//unordered_map zur Speicherung der jeweiligen Codierung für die auftretenden Symbole nach Wahrscheinlichkeit
-	//Codierung['9'] = "010101";
 	vector<int> numbers = { 0,1,0,1,2,6,0,7, 0,1,0,2,4,3,5,3, 0,2,0,1,8,8,7,7, 0,2,0,2,9,5,0,4, 0,3,0,1,1,8,7,3, 0,3,0,2,2,6,0,7 };
 	hufft.probabilities(numbers);
 
