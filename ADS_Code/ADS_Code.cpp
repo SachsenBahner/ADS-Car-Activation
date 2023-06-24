@@ -199,7 +199,7 @@ bool isOverlap(const Buchungsanfrage& neueAnfrage, const vector<Buchungsanfrage>
 bool isCustomerLegit(const Buchungsanfrage& neueAnfrage, const vector <Customer>& customers) {
 	for (const Customer& customer : customers) {
 		// cout << "Customer: " << neueAnfrage.customerName << " =? " << customer.name << endl;
-		if (neueAnfrage.customerName == customer.name && neueAnfrage.customerId == customer.id) {
+		if (neueAnfrage.customerName == customer.name || neueAnfrage.customerId == customer.id) {
 			// Der Kunde existiert und ID stimmt auch überein
 			return true;
 		}
