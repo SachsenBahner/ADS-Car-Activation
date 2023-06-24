@@ -25,15 +25,20 @@ int main()
 	hufft.pr_hufftree(tree, "", Codierung);
 
 	//Ausgabe der unordered_map
-	for (const auto& pair : Codierung) {
+	/*for (const auto& pair : Codierung) {
 		cout << pair.first << " = " << pair.second << endl;
-	}
+	}*/
 
 	// Ende Huffmann
+
+
 	
 	//encode
 	vector<int> CarKey = {0,3,0,2,2,6,0,7};
 	cout << encode(CarKey, Codierung) << endl;
+
+
+
 
 	// TODO: Später für UI ausglieder
 	vector<Car> cars = readCarPool(filenameCarPool);
@@ -41,8 +46,17 @@ int main()
 	vector<Station> stations = readStationPool(filenameStationPool);
 	// Ende Ausgliedern
 
+	/*for (Customer cs : customers) {
+		cout << "Customer: " << cs.name << cs.id << endl;;
+	}*/
 
-	// buchungsanfrage#
+
+	/*for (Station st : stations) {
+		cout << "Station: " << st.name << st.number << endl;;
+	}*/
+
+
+	// buchungsanfrage
 
 	while (1) {
 		// frage, ob neue Anfrage
@@ -55,7 +69,7 @@ int main()
 
 		Buchungsanfrage neueAnfrage = buchungsParser.ParseBuchungsanfrage(filename);
 
-		cout << neueAnfrage.customerName << neueAnfrage.customerId;
+		//cout << neueAnfrage.customerName << neueAnfrage.customerId;
 
 
 		if (neueAnfrage.error != FormatError::NoError) {
@@ -78,16 +92,16 @@ int main()
 				cerr << "File not Found!";
 			}
 
-			break;
+			continue;
 		}
 
 
 		AnfrageError err = pruefeAnfrage(neueAnfrage, bestehendeAnfragen, customers, cars, stations); // überprüfe, ob es Fehler gibt
 
 		if (err  == AnfrageError::NoError) { // Buchung kann angenommen werden
-			cout << "Buchung angenommen";
+			cout << "Buchung angenommen" << endl;
 			bestehendeAnfragen.push_back(neueAnfrage);
-			break;
+			continue;
 		}
 			
 		
@@ -113,45 +127,13 @@ int main()
 
 	}
 
-	
-
-
-	// K7scan1
-
-	//FILE* inf;
-	//cout << system("cd");
-		
-	//char fistr[200] = "buchung.txt";
-
-	//printf("Enter filename:\n");
-	//fgets(fistr, sizeof(fistr), stdin);
-	//fistr[strlen(fistr) - 1] = '\0';
-
-	/*inf = fopen(fistr, "r");
-	if (inf == NULL) {
-		perror("Error");
-		printf("Cannot open input file %s\n", fistr);
-		return 0;
-	}
-
-
-	BuchungsParser obj;
-
-	obj.InitParse(inf, stderr, stdout);
-	//obj.Load_tokenentry("SEMICOLON", 9);
-	//obj.pr_tokentable();
-	obj.yyparse();*/
-	
-
-	//Buchungsanfrage anfrage = obj.ParseBuchungsanfrage()
-
-
 	return 0;
 }
 
 
 
 vector<Customer> readCustomerPool(const string& filename) {
+	//cout << "vector<Customer> readCustomerPool(const string & filename)" << endl;
 	vector<Customer> customerList;
 
 	ifstream inputFile(filename);
@@ -166,7 +148,7 @@ vector<Customer> readCustomerPool(const string& filename) {
 		istringstream iss(line);
 		string name;
 		int id;
-		if (iss >> name >> id) {
+		if (getline(iss, name, ',') && (iss >> id)) {
 			customerList.push_back({ name, id });
 		}
 	}
@@ -193,8 +175,7 @@ vector<Station> readStationPool(const string& filename) {
 	while (getline(inputFile, line)) {
 		istringstream iss(line);
 		string prefix, name;
-		if (iss >> prefix >> name) {
-			name.erase(remove(name.begin(), name.end(), ':'), name.end());
+		if (getline(iss, prefix, ':') && getline(iss, name)) {
 			stations.push_back({ stationNum, name });
 			stationNum++;
 		}
@@ -208,7 +189,7 @@ vector<Station> readStationPool(const string& filename) {
 vector<Car> readCarPool(const string& filename) {
 	vector<Car> cars; // ka-ching ;-)
 
-	cout << "vector<Car> readCarPool(const string& filename)" << endl;
+	//cout << "vector<Car> readCarPool(const string& filename)" << endl;
 
 	ifstream inputFile(filename);
 	if (!inputFile) {
@@ -241,6 +222,8 @@ vector<Car> readCarPool(const string& filename) {
 			pricePerKm = stof(pricePerKmString);
 			carCodierung = stoi(carCodierungString);
 
+			//cout << "CarPool: " << kategorie << name << pricePerKm << pricePerHour << carCodierung << endl;
+
 			cars.push_back({ kategorie, name, pricePerKm, pricePerHour, carCodierung });
 		}
 	}
@@ -267,6 +250,7 @@ bool isOverlap(const Buchungsanfrage& neueAnfrage, const vector<Buchungsanfrage>
 
 bool isCustomerLegit(const Buchungsanfrage& neueAnfrage, const vector <Customer>& customers) {
 	for (const Customer& customer : customers) {
+		// cout << "Customer: " << neueAnfrage.customerName << " =? " << customer.name << endl;
 		if (neueAnfrage.customerName == customer.name && neueAnfrage.customerId == customer.id) {
 			// Der Kunde existiert und ID stimmt auch überein
 			return true;
@@ -278,9 +262,14 @@ bool isCustomerLegit(const Buchungsanfrage& neueAnfrage, const vector <Customer>
 
 bool isCarLegit(const Buchungsanfrage& neueAnfrage, const vector <Car>& cars) {
 	for (const Car& car : cars) {
-		if (neueAnfrage.Autocodierung == car.carCodierung && neueAnfrage.Kategorie == car.kategorie) {
-			// Das Auto existiertund ID stimmt auch überein
-			return true;
+		//cout << "Checkcar: " << neueAnfrage.Autocodierung << car.carCodierung << " Cat: " << neueAnfrage.Kategorie << car.kategorie << endl;
+		if (neueAnfrage.Autocodierung == car.carCodierung){
+			//cout << "Codierung stimmt;" << endl;
+			//if (neueAnfrage.Kategorie == car.kategorie) {  <-- not needed, ID ist einzigartiger
+			//	cout << "Kategorie stimmt" << endl;
+				// Das Auto existiertund ID stimmt auch überein
+				return true;
+			//}
 		}
 	}
 	// Das Auto wurde nicht gefunden
@@ -289,6 +278,7 @@ bool isCarLegit(const Buchungsanfrage& neueAnfrage, const vector <Car>& cars) {
 
 bool isStationLegit(const string& stationName, const vector <Station>& stations) {
 	for (const Station& station : stations) {
+		//cout << stationName << station.name << endl; 
 		if (stationName == station.name ) {
 			// Die Station existiert
 			return true;

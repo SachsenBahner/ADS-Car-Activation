@@ -59,7 +59,6 @@ FormatError BuchungsParser::checkLineFormat(const string &line, int &errorIndex)
 			getline(iss, kategorie, ';') &&
 			getline(iss, autoCodierungStr))
 		{
-
 			//cout << kundenname << kundennummerStr << startTagStr << startMonatStr << startJahrStr << startStundeStr << startMinuteStr << endTagStr << endMonatStr << endJahrStr << endStundeStr << endMinuteStr << startpunkt << endpunkt << kategorie << autoCodierungStr << endl;
 		
 
@@ -68,7 +67,7 @@ FormatError BuchungsParser::checkLineFormat(const string &line, int &errorIndex)
 			startMonatStr.empty() || startJahrStr.empty() || startStundeStr.empty() ||
 			startMinuteStr.empty() || endTagStr.empty() || endMonatStr.empty() ||
 			endJahrStr.empty() || endStundeStr.empty() || endMinuteStr.empty() ||
-			startpunkt.empty() || endpunkt.empty() || autoCodierungStr.empty())
+			startpunkt.empty() || endpunkt.empty() || autoCodierungStr.empty() || kategorie.empty())
 		{
 			// Fehler: Leerer Wert
 			errorIndex = -1;
@@ -111,6 +110,7 @@ FormatError BuchungsParser::checkLineFormat(const string &line, int &errorIndex)
 		buchungsanfrage.endZeit = endZeit;
 		buchungsanfrage.startpunkt = startpunkt;
 		buchungsanfrage.endpunkt = endpunkt;
+		buchungsanfrage.Kategorie = kategorie;
 		buchungsanfrage.Autocodierung = autocodierung;
 
 		return FormatError::NoError;

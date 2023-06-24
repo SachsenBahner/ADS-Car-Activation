@@ -1,0 +1,20 @@
+Zuckerburg; 0000007; 28.06.2023; 18:00; 28.06.2023; 20:30; H-KA; Bahnhof; Cat1; 01012607
+Torvald; 0000001; 26.06.2023; 10:00; 30.06.2023; 10:00; PH; KIT Nord; Cat3; 03022607
+GatesBill; 000003; 26.06.2023; 19:00; 26.06.2023; 22:30; Duale Hochschule; Schlossplatz; Cat1; 01024353
+Lovelace; 0000006; 30.06.2023; 12:00; 02.07.2023; 08:30; Marktplatz; Europaplatz; Cat2; 01028877
+Woszniak; 0000003; 29.06.2023; 18:00; 02.07.2023; 20:30; H-KA Technologiepark; Musikhochschule; Cat2; 02018877
+Jobs; 0000005; 28.06.2023; 17:00; 29.06.2023; 20:30; H-KA Technologiepark; Musikhochschule; Cat2; 02018877
+Woszniak; 0000003; 30.06.2023; 18:00; 30.06.2023; 20:30; H-KA Technologiepark; Musikhochschule; Cat3; 01012602
+Nowitzky; 0000011; 28.06.2023; 12:30; 29.06.2023; 22:30; Kunstakademie; KIT West; Cat2; 02018877
+Zuckerberg; 0000001; 28.06.2023; 12:30; 29.06.2023; 20:30; Kunstakademie; KIT Nord; Cat2; 02029504
+Brady; 0000015; 26.06.2023; 08:00; 01.07.2023; 08:00; KIT; Durlacher Tor; Cat3; 03011873
+Ronaldo; 0000012; 30.06.2023; 09:00; 31.06.2023; 20:30; H-KA; KIT Nord; Cat1; 01012607
+Jobs; 0000005; 30.06.2023; 06:00; 30.06.2023; 08:30; H-KA; KIT Nord; Cat1; 01012607
+Tyson; 0000013; 30.06.2023; 06:00; 30.06.2023; 08:30; H-KA; KIT Nord; Cat1;  01024353
+Gretzky; 0000014; 30.06.2023; 06:00; 30.06.2023; 08:30; H-KA; KIT Nord; Cat1; 01035001
+Gates; 0000003; 19.06.2023; 12:30; 28.06.2023; 20:30; Bahnhof; Schlossplatz; Cat1; 01012607
+Gates; 0000003; 27.06.2023; 07:00; 29.06.2023; 22:00; Bahnhof; Duale Hochschule; Cat2; 02018877
+Gates; 0000002; 30.06.2023; 12:30; 05.07.2023; 20:30; H-KA; KIT Nord; Cat1; 01012607
+Torvald; 0000001; 29.06.2023; 12:30; 29.06.2023; 18:30; H-KA; KIT Ost; Cat1; 01012607
+Hopper; 0000008; 30.06.2023; 12:30; 05.07.2023; 20:30; Europaplatz; H-KA Technologiepark; Cat1; 01035001
+Zuse; 0000002; 30.06.2023; 12:30; 05.07.2023; 20:30; H-KA; KIT Nord; Cat1; 03022607
