@@ -34,6 +34,8 @@ BuchungsParser buchungsParser;
 vector<Buchungsanfrage> bestehendeAnfragen;
 
 
+
+
 // Define some Structs
 
 struct Customer
@@ -68,8 +70,6 @@ enum class AnfrageError {
 
 
 
-
-
 // Anfage:
 // Kundenname; Kundennummer; Start-Datum;Start-Zeit;End-Datum;End-Zeit;Startpunkt;Endpunkt;Kategorie;Autocodierung
 
@@ -87,7 +87,9 @@ AnfrageError pruefeAnfrage(const Buchungsanfrage& neueAnfrage, const vector<Buch
 bool isCustomerLegit(const Buchungsanfrage& neueAnfrage, const vector <Customer>& customers);
 bool isCarLegit(const Buchungsanfrage& neueAnfrage, const vector <Car>& cars);
 bool isStationLegit(const string& stationName, const vector <Station>& stations);
+void printHuffmann();
+void printBuchungen(const vector<Buchungsanfrage>& anfragen);
+void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations);
+void printPools(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations);
 
 int main();
-
-

@@ -15,118 +15,64 @@ int main()
 	// Ausgabesprache festlegen
 	locale::global(locale(""));
 
+	cout << "Car-Activation V1.0" << endl;
 
-	// Huffmann ausgeben
-
-	CHufftree hufft;
-	unordered_map<char, string>Codierung;		//unordered_map zur Speicherung der jeweiligen Codierung für die auftretenden Symbole nach Wahrscheinlichkeit
-	vector<int> numbers = { 0,1,0,1,2,6,0,7, 0,1,0,2,4,3,5,3, 0,2,0,1,8,8,7,7, 0,2,0,2,9,5,0,4, 0,3,0,1,1,8,7,3, 0,3,0,2,2,6,0,7 };
-	hufft.probabilities(numbers);
-
-	CHuffNode* tree;
-	tree = hufft.Huffman();
-	hufft.pr_hufftree(tree, "", Codierung);
-
-	//Ausgabe der unordered_map
-	/*for (const auto& pair : Codierung) {
-		cout << pair.first << " = " << pair.second << endl;
-	}*/
-
-	// Ende Huffmann
-
-
-	
-	//encode
-	vector<int> CarKey = {0,3,0,2,2,6,0,7};
-	cout << encode(CarKey, Codierung) << endl;
-
-
-
-
-	// TODO: Später für UI ausglieder
+	cout << "Lese Pools ein..." << endl;
 	vector<Car> cars = readCarPool(filenameCarPool);
 	vector<Customer> customers = readCustomerPool(filenameCustomerPool);
 	vector<Station> stations = readStationPool(filenameStationPool);
-	// Ende Ausgliedern
-
-	/*for (Customer cs : customers) {
-		cout << "Customer: " << cs.name << cs.id << endl;;
-	}*/
 
 
-	/*for (Station st : stations) {
-		cout << "Station: " << st.name << st.number << endl;;
-	}*/
-
-
-	// buchungsanfrage
 
 	while (1) {
-		// frage, ob neue Anfrage
-
-		cout << "Bitte Buchungsdateiname eingeben: ";
-
-		string filename;
-
-		cin >> filename;
-
-		Buchungsanfrage neueAnfrage = buchungsParser.ParseBuchungsanfrage(filename);
-
-		//cout << neueAnfrage.customerName << neueAnfrage.customerId;
-
-
-		if (neueAnfrage.error != FormatError::NoError) {
-
-			cout << "[41m" << "Die Anfrage enthält einen Fehler. ";
-
-			if (neueAnfrage.error == FormatError::NotEnoughInputs) {
-				cerr << "Nicht genug Inputs!";
-			}
-			else if (neueAnfrage.error == FormatError::InvalidFormat) {
-				cerr << "InvalidFormat!";
-			}
-			else if (neueAnfrage.error == FormatError::StringMismatch) {
-				cerr << "StringMismatch!";
-			}
-			else if (neueAnfrage.error == FormatError::IntegerMismatch) {
-				cerr << "IntegerMismatch!";
-			}
-			else if (neueAnfrage.error == FormatError::FileNotFound) {
-				cerr << "File not Found!";
-			}
-			cout << "[0m";
-			continue;
-		}
-
-
-		AnfrageError err = pruefeAnfrage(neueAnfrage, bestehendeAnfragen, customers, cars, stations); // überprüfe, ob es Fehler gibt
-
-		if (err  == AnfrageError::NoError) { // Buchung kann angenommen werden
-			cout << "[42m" << "Buchung angenommen!" << "[0m" << endl;
-			bestehendeAnfragen.push_back(neueAnfrage);
-			continue;
-		}
-		
-		cout << "[41m" << "Buchung muss abgelehnt werden! Grund: ";
-
-		switch (err)
-		{
-		case AnfrageError::NoCustomerFound:
-			cout << "Der Kunde wurde nicht gefunden!" << "[0m" << endl;
-			break;
-		case AnfrageError::NoCarFound:
-			cout << "Das Auto wurde nicht gefunden!" << "[0m" << endl;
-			break;
-		case AnfrageError::NoStationFound:
-			cout << "Die Station wurde nicht gefunden!" << "[0m" << endl;
-			break;
-		case AnfrageError::AlreadyBooked:
-			cout << "Leider ist das Auto zu dem angegebenen Zeitpunkt schon ausgebucht!" << "[0m" << endl;
-			break;
-		}
-
+		char userInput;
 		cout << endl;
 
+		cout << "Bitte wähle eine Option aus:" << endl;
+		cout << "  1 Huffmann-Baum ausgeben" << endl;
+		cout << "  2 Pool Daten neu einlesen" << endl;
+		cout << "  3 Pooldaten ausgeben" << endl;
+		cout << "  4 Alle Buchungen ausgeben" << endl;
+		cout << "  5 Neue Buchung einlesen" << endl;
+		cout << "  6 Programm verlassen" << endl;
+
+		cout << "Deine Eingabe: ";
+
+		cin >> userInput;
+		cin.ignore(); // \n ignorieren
+		cout << endl;
+
+		switch (userInput)
+		{
+		case '1':
+			cout << "Huffmann-Baum wird ausgegeben." << endl;
+			printHuffmann();
+			break;
+		case '2':
+			cout << "Lese Pools ein..." << endl;
+			cars = readCarPool(filenameCarPool);
+			customers = readCustomerPool(filenameCustomerPool);
+			stations = readStationPool(filenameStationPool);
+			cout << "Pool Daten wurden neu einlesen." << endl;
+			break;
+		case '3':
+			printPools(customers, cars, stations);
+			break;
+		case '4':
+			cout << "Alle Buchungen werden ausgegeben." << endl;
+			printBuchungen(bestehendeAnfragen);
+			break;
+		case '5':
+			cout << "Bitte Buchungsname angeben: " << endl;
+			neueBuchung(customers, cars, stations);
+			break;
+		case '6':
+			return 0;
+			break;
+		default:
+			cout << "Unbekannte Eingabe. Bitte erneut probieren." << endl;
+			break;
+		}
 	}
 
 	return 0;
@@ -330,4 +276,133 @@ string encode (vector<int>& CarKey, unordered_map<char, string>& Codierung) {
 		output += Codierung['0'+CarKey[i]];
 	}
 	return output;
+}
+
+
+void printHuffmann() {
+	// Huffmann ausgeben
+
+	CHufftree hufft;
+	unordered_map<char, string>Codierung;		//unordered_map zur Speicherung der jeweiligen Codierung für die auftretenden Symbole nach Wahrscheinlichkeit
+	vector<int> numbers = { 0,1,0,1,2,6,0,7, 0,1,0,2,4,3,5,3, 0,2,0,1,8,8,7,7, 0,2,0,2,9,5,0,4, 0,3,0,1,1,8,7,3, 0,3,0,2,2,6,0,7 };
+	hufft.probabilities(numbers);
+
+	CHuffNode* tree;
+	tree = hufft.Huffman();
+	hufft.pr_hufftree(tree, "", Codierung);
+
+	//Ausgabe der unordered_map
+	/*for (const auto& pair : Codierung) {
+		cout << pair.first << " = " << pair.second << endl;
+	}*/
+
+	// Ende Huffmann
+
+
+
+	//encode
+	vector<int> CarKey = { 0,3,0,2,2,6,0,7 };
+	cout << encode(CarKey, Codierung) << endl;
+}
+
+
+void printBuchungen(const vector<Buchungsanfrage>& anfragen) {
+
+	if (anfragen.empty()) {
+		cout << "Es liegen noch keine Anfragen vor." << endl;
+		return;
+	}
+
+	// Kundenname; Kundennummer; Start-Datum;Start-Zeit;End-Datum;End-Zeit;Startpunkt;Endpunkt;Kategorie;Autocodierung
+	//cout << left << setw(12) << "[7mStationsID" << " Station[0m" << endl;
+
+	cout << left << setw(16) << "[7mKundenname" << setw(16) << "Kundennummer" << "Startzeitpunkt" << "Endzeitpunkt" << "Startpunkt" << "Endpunkt" << "Autokategorie" << "Autocodierung[0m" << endl;
+
+	for (Buchungsanfrage af : anfragen) {
+		cout << left << setw(16) << af.customerName << setw(16) << af.customerId << af.startZeit << af.endZeit << af.startpunkt << af.endpunkt << af.Kategorie << af.Autocodierung << endl;
+	}
+
+	
+
+}
+
+void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations) {
+	string filename;
+	cin >> filename;
+	Buchungsanfrage neueAnfrage = buchungsParser.ParseBuchungsanfrage(filename);
+
+
+	if (neueAnfrage.error != FormatError::NoError) {
+
+		cout << "[41m" << "Die Anfrage enthält einen Fehler. ";
+
+		if (neueAnfrage.error == FormatError::NotEnoughInputs) {
+			cerr << "Nicht genug Inputs!";
+		}
+		else if (neueAnfrage.error == FormatError::InvalidFormat) {
+			cerr << "InvalidFormat!";
+		}
+		else if (neueAnfrage.error == FormatError::StringMismatch) {
+			cerr << "StringMismatch!";
+		}
+		else if (neueAnfrage.error == FormatError::IntegerMismatch) {
+			cerr << "IntegerMismatch!";
+		}
+		else if (neueAnfrage.error == FormatError::FileNotFound) {
+			cerr << "File not Found!";
+		}
+		cout << "[0m";
+		return;
+	}
+
+
+	AnfrageError err = pruefeAnfrage(neueAnfrage, bestehendeAnfragen, customers, cars, stations); // überprüfe, ob es Fehler gibt
+
+	if (err == AnfrageError::NoError) { // Buchung kann angenommen werden
+		cout << "[42m" << "Buchung angenommen!" << "[0m" << endl;
+		bestehendeAnfragen.push_back(neueAnfrage);
+		return;
+	}
+
+	cout << "[41m" << "Buchung muss abgelehnt werden! Grund: ";
+
+	switch (err)
+	{
+	case AnfrageError::NoCustomerFound:
+		cout << "Der Kunde wurde nicht gefunden!" << "[0m" << endl;
+		break;
+	case AnfrageError::NoCarFound:
+		cout << "Das Auto wurde nicht gefunden!" << "[0m" << endl;
+		break;
+	case AnfrageError::NoStationFound:
+		cout << "Die Station wurde nicht gefunden!" << "[0m" << endl;
+		break;
+	case AnfrageError::AlreadyBooked:
+		cout << "Leider ist das Auto zu dem angegebenen Zeitpunkt schon ausgebucht!" << "[0m" << endl;
+		break;
+	}
+
+	cout << endl;
+}
+
+void printPools(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations) {
+	cout << left << setw(20) << "[7mKundenname" << "Kundennummer[0m" << endl;
+	for (Customer cs : customers) {
+		cout << left << setw(20) << cs.name << cs.id << endl;;
+	}
+
+	cout << endl << endl;
+
+	cout << left << setw(12) << "[7mStationsID" << " Station[0m" << endl;
+	for (Station st : stations) {
+		cout << left << setw(12) << st.number << st.name << endl;;
+	}
+
+	cout << endl << endl;
+
+	cout << left << setw(14) << "[7mAutoname" << setw(12) << "Kategorie" << setw(12) << "Kodierung" << setw(7) << "Preis/h" << setw(7) << "Preis/km[0m" << endl;
+	for (Car cr : cars) {
+		cout << left << setw(14) << cr.name << setw(12) << cr.kategorie << setw(12) << cr.carCodierung << setw(7) << fixed << setprecision(2) << cr.pricePerHour << setw(7) << cr.pricePerKm << endl;
+
+	}
 }
