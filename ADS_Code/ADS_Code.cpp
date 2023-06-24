@@ -12,6 +12,9 @@
 
 int main()
 {
+	// Ausgabesprache festlegen
+	locale::global(locale(""));
+
 
 	// Huffmann ausgeben
 
@@ -73,8 +76,8 @@ int main()
 
 
 		if (neueAnfrage.error != FormatError::NoError) {
-			
-			cout << "Die Anfrage enthält einen Fehler. ";
+
+			cout << "[41m" << "Die Anfrage enthält einen Fehler. ";
 
 			if (neueAnfrage.error == FormatError::NotEnoughInputs) {
 				cerr << "Nicht genug Inputs!";
@@ -91,7 +94,7 @@ int main()
 			else if (neueAnfrage.error == FormatError::FileNotFound) {
 				cerr << "File not Found!";
 			}
-
+			cout << "[0m";
 			continue;
 		}
 
@@ -99,27 +102,26 @@ int main()
 		AnfrageError err = pruefeAnfrage(neueAnfrage, bestehendeAnfragen, customers, cars, stations); // überprüfe, ob es Fehler gibt
 
 		if (err  == AnfrageError::NoError) { // Buchung kann angenommen werden
-			cout << "Buchung angenommen" << endl;
+			cout << "[42m" << "Buchung angenommen!" << "[0m" << endl;
 			bestehendeAnfragen.push_back(neueAnfrage);
 			continue;
 		}
-			
 		
-		cout << "Buchung muss abgelehnt werden! Grund: ";
+		cout << "[41m" << "Buchung muss abgelehnt werden! Grund: ";
 
 		switch (err)
 		{
 		case AnfrageError::NoCustomerFound:
-			cerr << "Der Kunde wurde nicht gefunden!";
+			cout << "Der Kunde wurde nicht gefunden!" << "[0m" << endl;
 			break;
 		case AnfrageError::NoCarFound:
-			cerr << "Das Auto wurde nicht gefunden!";
+			cout << "Das Auto wurde nicht gefunden!" << "[0m" << endl;
 			break;
 		case AnfrageError::NoStationFound:
-			cerr << "Die Station wurde nicht gefunden!";
+			cout << "Die Station wurde nicht gefunden!" << "[0m" << endl;
 			break;
 		case AnfrageError::AlreadyBooked:
-			cerr << "Leider ist das Auto zu dem gewählten Zeitpunkt schon ausgebucht!";
+			cout << "Leider ist das Auto zu dem angegebenen Zeitpunkt schon ausgebucht!" << "[0m" << endl;
 			break;
 		}
 
