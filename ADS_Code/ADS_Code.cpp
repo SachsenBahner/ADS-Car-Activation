@@ -13,7 +13,7 @@
 int main()
 {
 	// Ausgabesprache festlegen
-	locale::global(locale(""));
+	locale::global(locale("German_germany.UTF-8"));
 
 	cout << "Car-Activation V1.0" << endl;
 
@@ -28,7 +28,7 @@ int main()
 		char userInput;
 		cout << endl;
 
-		cout << "Bitte wähle eine Option aus:" << endl;
+		cout << "[7mBitte wähle eine Option aus:[0m" << endl;
 		cout << "  1 Huffmann-Baum ausgeben" << endl;
 		cout << "  2 Pool Daten neu einlesen" << endl;
 		cout << "  3 Pooldaten ausgeben" << endl;
@@ -36,7 +36,7 @@ int main()
 		cout << "  5 Neue Buchung einlesen" << endl;
 		cout << "  6 Programm verlassen" << endl;
 
-		cout << "Deine Eingabe: ";
+		cout << endl << "Deine Eingabe: ";
 
 		cin >> userInput;
 		cin.ignore(); // \n ignorieren
@@ -314,16 +314,27 @@ void printBuchungen(const vector<Buchungsanfrage>& anfragen) {
 	}
 
 	// Kundenname; Kundennummer; Start-Datum;Start-Zeit;End-Datum;End-Zeit;Startpunkt;Endpunkt;Kategorie;Autocodierung
-	//cout << left << setw(12) << "[7mStationsID" << " Station[0m" << endl;
 
-	cout << left << setw(16) << "[7mKundenname" << setw(16) << "Kundennummer" << "Startzeitpunkt" << "Endzeitpunkt" << "Startpunkt" << "Endpunkt" << "Autokategorie" << "Autocodierung[0m" << endl;
+	//cout << left << setw(20) << "[7mKundenname" << setw(7) << "KundenID" << setw(15) << "Startzeitpunkt" << setw(15) << "Endzeitpunkt" << "Startpunkt" << "Endpunkt" << "Autokategorie" << "Autocodierung[0m" << endl;
+	cout << left << "[7m" << setw(20) << "Kundenname" << setw(9) << "KundenID" << setw(16) << "Startzeitpunkt" << setw(15) << "Endzeitpunkt";
+	cout << setw(12) << "Startpunkt" << setw(12) << "Endpunkt" << setw(10) << "Kategorie" << setw(20) << "Autocodierung[0m" << endl;
 
 	for (Buchungsanfrage af : anfragen) {
-		cout << left << setw(16) << af.customerName << setw(16) << af.customerId << af.startZeit << af.endZeit << af.startpunkt << af.endpunkt << af.Kategorie << af.Autocodierung << endl;
+		cout << left << setw(20) << af.customerName << setw(9) << format("{:07}", af.customerId) << setw(16) << formatDate(af.startZeit) << "  " << setw(15) << formatDate(af.endZeit);
+		cout << setw(12) << af.startpunkt << setw(12) << af.endpunkt << setw(11) << af.Kategorie << setw(20) << af.Autocodierung << endl;
 	}
 
 	
 
+	
+
+}
+
+string formatDate(time_t time)
+{
+	string str(30, '\0');
+	strftime(&str[0], str.size(), "%d.%m.%y %H:%M", localtime(&time));
+	return str;
 }
 
 void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations) {

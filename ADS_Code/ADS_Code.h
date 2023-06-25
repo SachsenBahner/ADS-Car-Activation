@@ -9,6 +9,7 @@
 #include <sstream>
 #include <time.h>
 #include <codecvt>
+#include <format>
 
 
 #include "k7scan1.h"
@@ -91,5 +92,7 @@ void printHuffmann();
 void printBuchungen(const vector<Buchungsanfrage>& anfragen);
 void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations);
 void printPools(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations);
+
+string formatDate(time_t time);
 
 int main();
