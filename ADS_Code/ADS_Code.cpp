@@ -22,7 +22,7 @@ int main()
 	vector<Customer> customers = readCustomerPool(filenameCustomerPool);
 	vector<Station> stations = readStationPool(filenameStationPool);
 	unordered_map<char, string> Codierung;
-
+	Codierung = printHuffmann(cars);
 
 	while (1) {
 		char userInput;
