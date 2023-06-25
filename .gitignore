@@ -840,3 +840,9 @@ ADS_Code/buchung - Kopie.txt
 *.ipch
 *.db
 ADS_Code/.vs/ADS_Code/v17/.suo
+/ADS_Code/ADS_Code.vcxproj.user
+/ADS_Code/ADS_Code.vcxproj.filters
+/ADS_Code/ADS_Code.vcxproj
+/ADS_Code/ADS_Code.vcxproj.user
+/ADS_Code/ADS_Code.vcxproj.filters
+/ADS_Code/ADS_Code.vcxproj
