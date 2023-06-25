@@ -21,7 +21,7 @@ int main()
 	vector<Car> cars = readCarPool(filenameCarPool);
 	vector<Customer> customers = readCustomerPool(filenameCustomerPool);
 	vector<Station> stations = readStationPool(filenameStationPool);
-
+	unordered_map<char, string> Codierung;
 
 
 	while (1) {
@@ -46,7 +46,7 @@ int main()
 		{
 		case '1':
 			cout << "Huffmann-Baum wird ausgegeben." << endl;
-			printHuffmann();
+			Codierung = printHuffmann(cars);
 			break;
 		case '2':
 			cout << "Lese Pools ein..." << endl;
@@ -64,7 +64,7 @@ int main()
 			break;
 		case '5':
 			cout << "Bitte Buchungsname angeben: " << endl;
-			neueBuchung(customers, cars, stations);
+			neueBuchung(customers, cars, stations, Codierung);
 			break;
 		case '6':
 			return 0;
@@ -279,12 +279,22 @@ string encode (vector<int>& CarKey, unordered_map<char, string>& Codierung) {
 }
 
 
-void printHuffmann() {
+unordered_map<char, string> printHuffmann(vector<Car>& cars) {
 	// Huffmann ausgeben
 
 	CHufftree hufft;
 	unordered_map<char, string>Codierung;		//unordered_map zur Speicherung der jeweiligen Codierung für die auftretenden Symbole nach Wahrscheinlichkeit
-	vector<int> numbers = { 0,1,0,1,2,6,0,7, 0,1,0,2,4,3,5,3, 0,2,0,1,8,8,7,7, 0,2,0,2,9,5,0,4, 0,3,0,1,1,8,7,3, 0,3,0,2,2,6,0,7 };
+
+	vector<int> numbers;
+	for (Car car : cars) {
+		int number = car.carCodierung;
+		numbers.push_back(0);	//führende Null der CarCoddes hinzügen, wird bei int immer entfernt
+		while (number > 0) {
+			int digit = number % 10;
+			numbers.push_back(digit);
+			number /= 10;
+		}
+	}
 	hufft.probabilities(numbers);
 
 	CHuffNode* tree;
@@ -292,17 +302,22 @@ void printHuffmann() {
 	hufft.pr_hufftree(tree, "", Codierung);
 
 	//Ausgabe der unordered_map
-	/*for (const auto& pair : Codierung) {
-		cout << pair.first << " = " << pair.second << endl;
-	}*/
+	cout << endl << "binäre 0 im Baum nach links | binäre 1 im Baum nach rechts" << endl;
 
+	cout << endl << setw(16) << left << "[3mSymbol[0m";
+	cout << setw(16) << left << "[3mCodierung[0m" << endl;
+
+	for (const auto& pair : Codierung) {
+		cout << setw(8) << left << pair.first;
+		cout << setw(8) << left << pair.second << endl;
+	}
+
+	return Codierung;
 	// Ende Huffmann
 
-
-
 	//encode
-	vector<int> CarKey = { 0,3,0,2,2,6,0,7 };
-	cout << encode(CarKey, Codierung) << endl;
+	//vector<int> CarKey = { 0,3,0,2,2,6,0,7 };
+	//cout << encode(CarKey, Codierung) << endl;
 }
 
 
@@ -337,7 +352,7 @@ string formatDate(time_t time)
 	return str;
 }
 
-void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations) {
+void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations, unordered_map<char, string>& Codierung) {
 	string filename;
 	cin >> filename;
 	Buchungsanfrage neueAnfrage = buchungsParser.ParseBuchungsanfrage(filename);
@@ -371,9 +386,21 @@ void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>
 
 	if (err == AnfrageError::NoError) { // Buchung kann angenommen werden
 		cout << "[42m" << "Buchung angenommen!" << "[0m" << endl;
+		
+		vector<int> CarKey;
+		int number = neueAnfrage.Autocodierung;
+		CarKey.push_back(0);	//führende Null der CarCodes hinzügen, wird bei int immer entfernt
+		while (number > 0) {
+			int digit = number % 10;
+			CarKey.push_back(digit);
+			number /= 10;
+		}
+		cout << "Codierungsbitstream: " << encode(CarKey, Codierung) << endl;
 		bestehendeAnfragen.push_back(neueAnfrage);
 		return;
 	}
+
+
 
 	cout << "[41m" << "Buchung muss abgelehnt werden! Grund: ";
 

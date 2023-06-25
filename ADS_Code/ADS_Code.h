@@ -88,9 +88,9 @@ AnfrageError pruefeAnfrage(const Buchungsanfrage& neueAnfrage, const vector<Buch
 bool isCustomerLegit(const Buchungsanfrage& neueAnfrage, const vector <Customer>& customers);
 bool isCarLegit(const Buchungsanfrage& neueAnfrage, const vector <Car>& cars);
 bool isStationLegit(const string& stationName, const vector <Station>& stations);
-void printHuffmann();
+unordered_map<char, string> printHuffmann(vector<Car>& cars);
 void printBuchungen(const vector<Buchungsanfrage>& anfragen);
-void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations);
+void neueBuchung(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations, unordered_map<char, string>& Codierung);
 void printPools(vector<Customer>& customers, vector<Car>& cars, vector<Station>& stations);
 
 string formatDate(time_t time);

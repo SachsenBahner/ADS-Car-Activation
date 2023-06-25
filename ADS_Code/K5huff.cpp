@@ -15,21 +15,20 @@ CHuffNode::CHuffNode(double key, char symbol,	CHuffNode* left, CHuffNode* right)
 };*/
 
 void CHufftree::probabilities(vector<int>& codes) {
-	int total_count = codes.size();
-	cout << total_count << endl;
+	int total_count, count;
 	double probability;
-	int count;
+	total_count = codes.size();
+	cout << "Ausgabe der Wahrscheinlichkeiten: \n";
 	for (int i = 0; i <= 9; i++) {
 		count = 0;
 		for (int num : codes) {
 			if (num == i) {
 				count++;
 			}
-		}
-		cout << "creating Huffmanntree: \n";
+		}		
 		probability = 1.0 * count / total_count;
 		if (count != 0) {pq.push(CHuffNode(probability, i + '0'));};
-		cout << i << "  "<< std::fixed << std::setprecision(2) << probability << "\n";
+		cout << "Symbol " << i << "  " << std::fixed << std::setprecision(2) << probability << "\n";
 	}
 }
 
@@ -59,7 +58,7 @@ void CHufftree::pr_pq()
 void CHufftree::pr_hufftree(CHuffNode *n, string code, unordered_map<char, string>& Codierung)
 {
 	if(n){
-		printf("symbol: %c, key: %f\n",n->symbol,n->key);
+		//printf("symbol: %c, key: %f\n",n->symbol,n->key);
 		if(n->symbol != '#') {
 			Codierung[n->symbol] = code;
 		}
