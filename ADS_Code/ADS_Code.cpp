@@ -29,7 +29,7 @@ int main()
 		cout << endl;
 
 		cout << "[7mBitte wähle eine Option aus:[0m" << endl;
-		cout << "  1 Huffmann-Baum ausgeben" << endl;
+		cout << "  1 Huffman-Baum ausgeben" << endl;
 		cout << "  2 Pool Daten neu einlesen" << endl;
 		cout << "  3 Pooldaten ausgeben" << endl;
 		cout << "  4 Alle Buchungen ausgeben" << endl;
@@ -45,7 +45,7 @@ int main()
 		switch (userInput)
 		{
 		case '1':
-			cout << "Huffmann-Baum wird ausgegeben." << endl;
+			cout << "Huffman-Baum wird ausgegeben." << endl;
 			Codierung = printHuffmann(cars);
 			break;
 		case '2':
