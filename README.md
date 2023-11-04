@@ -17,7 +17,7 @@ Das Car Activation Programm führt eine lexikalische Analyse der Buchungsanfrage
 
 ## Festlegung der Signal-Codierung für den Huffman-Algorithmus
 
-Für den Huffman-Algorithmus wurde eine Signal-Codierung basierend auf praxisrelevantem Hintergrund recherchiert. Die Codierung berücksichtigt Merkmale wie Kategorie, Sitzanzahl und weitere relevante Informationen der Fahrzeuge. Die Codierung erfolgt mithilfe des Programms "k5huff" von Prof. Schäfer.
+Für den Huffman-Algorithmus wurde eine Signal-Codierung basierend auf praxisrelevantem Hintergrund recherchiert. Die Codierung erfolgt mithilfe des Programms "k5huff" von Prof. Schäfer.
 
 ## Ausgabe des Huffman-Baums
 
